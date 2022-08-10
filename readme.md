@@ -20,6 +20,12 @@
 - Windows: Ctrl + /
 - MacOS: Command + /
 
+__Thực hành sử dụng biến__
+Tạo biến weight và gán cho nó một giá trị số thể hiện trọng lượng (weight nghĩa là trọng lượng, cân nặng).
+```javascript
+var weight = 5.5;
+alert(weight)
+```
 # Thuật ngữ Built-in
     1. Alert
     2. Console
@@ -34,6 +40,12 @@
 - comfirm('')
 - prompt('')
 
+__Thực hành sử dụng console.log__
+Tại main.js có sẵn biến language, hãy sử dụng console.log để in giá trị của biến này ra tab Console trong Dev Tool của trình duyệt.
+```javascript
+var language = 'JavaScript';
+console.log(language);
+```
 ## Alert
 - Bật lên message
 ## Confirm
@@ -100,6 +112,15 @@ if (a > 0 && b > 0){
 | %   | Chia lấy số dư
 | ++  | Tăng 1 giá trị số
 | --  | Giảm 1 giá trị số
+
+__Thực hành toán tử số học__
+Vượt qua thử thách này bằng cách tạo biến nextAge để lưu số tuổi tiếp theo được tính từ giá trị của biến age. Ví dụ: age = 35 thì nextAge sẽ là 36.
+```javascript
+var age = 20
+var nextAge = age + 1
+console.log(nextAge)
+```
+
 ## Toán tử gán
 |   Toán tử    |      Ví dụ     |   Tương đương   |
 |--------------|----------------|-----------------|
@@ -116,6 +137,25 @@ var a = 1;
 a += 2;
 a = a + 2;
 ```
+__Thực hành với toán tử gán__
+Sử dụng kiến thức về toán tử gán và toán tử số học để tạo các biến a, b, c, d thỏa mãn các yêu cầu sau đây:
+
+a là 1 số dương
+b là 1 số âm
+c là kết quả của a + b
+d là kết quả của a - b
+
+```javascript
+var a = 1;
+var b= -1;
+var c = a + b;
+var d = a - b;
+
+console.log(c);
+console.log(d);
+
+```
+
 ## Toán tử ++
 `1. Dùng làm hậu tố: variable++ (toán tử nằm sau biến)`
 
@@ -198,7 +238,8 @@ var name = 'Hieu';
 name += ' Minh';
 console.log(name);
 ```
-__VD2:__ 
+__Thực hành nối chuỗi__ 
+Hãy vượt qua thử thách này bằng cách tạo ra biến fullName mang giá trị tên đầy đủ, được kết hợp từ giá trị của 2 biến firstName và lastName.
 ```javascript
 var firstName = 'Kiều';
 var lastName = 'Trang';
@@ -237,7 +278,7 @@ if (age < canBuyAlcohol){
 ## Kiểu dữ liệu Boolean
 - Trả về giá trị True or False
 
-__VD:__
+__Thực hành dùng boolean__
 Để vượt qua thử thách này, hãy tạo biến canBuyAlcohol để thể hiện xem giá trị của biến age có đủ tuổi mua rượu hay không(?).
 Theo luật, người từ 18 tuổi trở lên mới được phép mua rượu.
 ```javascript
@@ -581,7 +622,8 @@ var result = cong(2,8);
 console.log(result);
 ```
 
-__VD__
+__Thực hành hàm sum 3__
+
 Hoàn thành thử thách này bằng cách tạo hàm sum, hàm có 2 tham số a, b và trả về tổng của 2 tham số.
 ```javascript
 function sum (a, b) {
@@ -591,12 +633,36 @@ function sum (a, b) {
 console.log(sum);
 ```
 
-__VD__
+__Thực hành dùng hàm sum__
+
 Sử dụng hàm sum đã cho, hãy tạo biến result để lưu kết quả của phép cộng 2 số là 20 và 10.
 ```javascript
 function sum(a, b) {
     return a + b;
 }
 var result = sum(20, 10);
+console.log(result);
+```
+
+__Thực hành dùng hàm triple 3__
+
+Hoàn thành thử thách này bằng cách tạo hàm triple, hàm có 1 tham số x và trả về giá trị gấp 3 lần x. Ví dụ, x = 3 thì hàm triple sẽ trả về 9.
+```javascript
+function triple(x) {
+    return x*3
+}
+var result = triple(3);
+console.log(result);
+```
+
+__Thực hành dùng hàm triple__
+
+Sử dụng hàm triple đã cho, hãy tạo biến result để lưu kết quả của 10 * 3.
+Sau đó, bạn có thể console.log(result) và mở tab Console trong Dev Tool để xem giá trị của result một cách trực quan.
+```javascript
+function triple(x) {
+    return x * 3;
+}
+var result = triple(10);
 console.log(result);
 ```
