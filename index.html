@@ -1,13 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Javascript</title>
 </head>
+<style>
+    *{
+        font-family: 'roboto', sans-serif;
+    }
+    #myform {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .form__input {
+        border: 1px solid;
+        padding: 0 30px;
+    }
+
+    .form__input-form {
+        padding: 10px;
+        text-align: center;
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
+
 <body>
     <h1>JAVASCRIPT</h1>
-    <script src="./main.js"></script>
+    <form method="post" action="" id="myform">
+        <div class="form__input">
+            <h1>Tính chỉ số BMI của bạn</h1>
+            <div class="form__input-form form__input--name">
+                Họ Tên: <input id="name" type="text" name="" placeholder="Nhập tên của bạn">
+            </div>
+            <div class="form__input-form form__input--weight">
+                Cân nặng: <input id="weight" type="text" name="" placeholder="Nhập cân nặng">
+            </div>
+            <div class="form__input-form form__input--height">
+                Chiều cao: <input id="height" type="text" name="" placeholder="Nhập chiều cao">
+            </div>
+            <div class="form__input-form form__input--submit">
+                <input type="button" onclick="BMI()" value="Submit">
+            </div>
+            Kết quả BMI của bạn là: <span id="result"></span><br>
+            Thông tin: <br>
+            <span id="test"></span>
+        </div>
+    </form>
+
+    <!-- <script src="./main.js"></script> -->
+    <script>
+        let arrayBMI = []
+        function BMI() {
+            let n = String(document.getElementById("name").value);
+            let a = Number(document.getElementById("weight").value);
+            let b = Number(document.getElementById("height").value);
+            let kq;
+            let BMI = a / (b * b);
+            if (BMI < 18.5) {
+                console.log('Nhẹ cân (CED) ' + Math.round(BMI * 100) / 100);
+                kq = 'Nhẹ cân (CED) ';
+            } else if (BMI >= 18.5 && BMI <= 22.9) {
+                console.log('Tình trạng dinh dưỡng bình thường ' + Math.round(BMI * 100) / 100);
+                kq = 'Tình trạng dinh dưỡng bình thường ';
+            } else if (BMI == 23.0) {
+                console.log('Thừa cân ' + Math.round(BMI * 100) / 100);
+                kq = 'Thừa cân ';
+            } else if (BMI >= 23.0 && BMI <= 24.9) {
+                console.log('Tiền béo phì ' + Math.round(BMI * 100) / 100);
+                kq = 'Tiền béo phì ';
+            } else if (BMI >= 25.0 && BMI <= 29.9) {
+                console.log('Béo phì độ I ' + Math.round(BMI * 100) / 100);
+                kq = 'Béo phì độ I ';
+            } else if (BMI >= 30.0) {
+                console.log('Béo phì độ II ' + Math.round(BMI * 100) / 100);
+                kq = 'Béo phì độ II ';
+            }
+            // document.getElementById("result").innerHTML = BMI;
+            let data = {
+                name: n,
+                BMI: Math.round(BMI * 100) / 100,
+                status: kq
+            };
+            console.log(data);
+            // console.log(data.name)
+            arrayBMI.push(data);
+            console.log(arrayBMI);
+            let html = ''
+            for (let i = 0; i < arrayBMI.length; i++) {
+                // console.log(arrayBMI[i].name,BMI,kq);
+                html += '<p> Tên: ' + arrayBMI[i].name + ' ' + '<br>' + 'BMI:' + arrayBMI[i].BMI + '<br>' + ' ' + 'Kết quả:' + arrayBMI[i].status + '</p>'
+            }
+
+            // for(let key in data){
+            document.getElementById("test").innerHTML = html;
+            // }         
+        }
+    </script>
 </body>
+
 </html>
