@@ -35,7 +35,7 @@
     }
 </style>
 
-<body onload="render()">
+<body>
     <h1>JAVASCRIPT</h1>
     <form method="post" action="" id="myform" onsubmit="return true">
         <div class="form__input">
@@ -61,12 +61,44 @@
     </form>
     <!-- <script src="./main.js"></script> -->
     <script>
+        console.log('1', document.getElementById("result"))
+        document.addEventListener("DOMContentLoaded", () => {
+            let localBMI = localStorage.getItem('localBMI'); // Tìm trong localStorage có key nào là BMI không
+            localBMI = JSON.parse(localBMI); // giải mã localBMI ra
+            let html ='';
+            for (let i = 0; i < localBMI.length; i++) {
+                html += '<p> Tên: ' + localBMI[i].name + ' ' + '<br>' + 'BMI:' + localBMI[i].BMI + '<br>' + ' ' + 'Kết quả:' + localBMI[i].status + '</p>'
+            }
+            document.getElementById("test").innerHTML = html;
+            // bt1: lưu array
+            localStorage.setItem('localBMI', JSON.stringify(localBMI));
+
+        });
+    </script>
+    <script>
+        let localBMI = localStorage.getItem('localBMI'); // Tìm trong localStorage có key nào là BMI không
+        localBMI = JSON.parse(localBMI); // giải mã localBMI ra
+        console.log(localBMI);
+
         let arrayBMI = []
+        if (localBMI) {
+            arrayBMI = localBMI;
+            let html = ''
+            for (let i = 0; i < arrayBMI.length; i++) {
+                html += '<p> Tên: ' + arrayBMI[i].name + ' ' + '<br>' + 'BMI:' + arrayBMI[i].BMI + '<br>' + ' ' + 'Kết quả:' + arrayBMI[i].status + '</p>'
+            };
+
+            // bt1: lưu array
+            localStorage.setItem('localBMI', JSON.stringify(arrayBMI));
+            
+        }
+
+
         function BMI() {
             let n = String(document.getElementById("name").value);
             let a = Number(document.getElementById("weight").value);
             let b = Number(document.getElementById("height").value);
-            b =  b / 100;
+            b = b / 100;
             let kq;
             let BMI = a / Math.pow(b, 2);
             if (BMI < 18.5) {
@@ -104,16 +136,14 @@
             }
 
             // bt1: lưu array
-            // localStorage.setItem('localBMI', JSON.stringify(arrayBMI)); // stringify mã hoá dữ liệu
-            // let localBMI = localStorage.getItem('localBMI'); // Tìm trong localStorage có key nào là BMI không
-            // localBMI = JSON.parse(localBMI); // giải mã localBMI ra
-            // console.log(localBMI);
+            localStorage.setItem('localBMI', JSON.stringify(arrayBMI)); // stringify mã hoá dữ liệu
+
 
             // bt2: lưu data
-            localStorage.setItem("name", n);
-            localStorage.setItem("weight", a);
-            localStorage.setItem("height",  b * 100);
-           
+            // localStorage.setItem("name", n);
+            // localStorage.setItem("weight", a);
+            // localStorage.setItem("height",  b * 100);
+
 
             // for(let key in data){
             document.getElementById("test").innerHTML = html;
@@ -133,15 +163,15 @@
         function resetForm() {
             document.getElementById('myform').reset();
         }
-        function render(){
-            // Xuất local ra màn hình
-            let n = localStorage.getItem("name");
-            document.getElementById("name").value = n;
-            let a = localStorage.getItem("weight");
-            document.getElementById("weight").value = a;
-            let b = localStorage.getItem("height");
-            document.getElementById("height").value = b;
-        }
+        // function render(){
+        //     // Xuất local ra màn hình
+        //     let n = localStorage.getItem("name");
+        //     document.getElementById("name").value = n;
+        //     let a = localStorage.getItem("weight");
+        //     document.getElementById("weight").value = a;
+        //     let b = localStorage.getItem("height");
+        //     document.getElementById("height").value = b;
+        // }
     </script>
 </body>
 
