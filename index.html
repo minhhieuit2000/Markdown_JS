@@ -23,35 +23,55 @@
         padding: 20px 30px;
     }
 
-    .form__input-form {
+    .form-label {
+        display: inline-block;
+        margin: 5px 0;
+    }
+
+    input {
+        border: 1px solid;
+        display: block;
+        width: 90%;
         padding: 10px;
-        text-align: center;
-        display: flex;
-        justify-content: space-between;
+        border-radius: 5px;
+    }
+
+    .form__input-form {
+        margin-bottom: 15px;
     }
 
     .form__input--submit {
         display: block;
     }
+
+    input[type=number]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
 </style>
 
 <body>
     <h1>JAVASCRIPT</h1>
-    <form method="post" action="" id="myform" onsubmit="return true">
+    <form method="post" action="" id="myform" onsubmit="BMI()">
         <div class="form__input">
             <h1>Tính chỉ số BMI của bạn</h1>
             <div class="form__input-form form__input--name">
-                Họ Tên: <input id="name" type="text" name="text" placeholder="Nhập tên của bạn">
+                <label for="" class="form-label">Họ Tên:</label>
+                <input id="name" type="text" required maxlength="65" name="text" placeholder="Nhập tên của bạn">
+                <span class="form-message"></span>
             </div>
             <div class="form__input-form form__input--weight">
-                Cân nặng(kg): <input id="weight" type="text" name="text" placeholder="Nhập cân nặng">
+                <label for="weight" class="form-label"> Cân nặng (kg):</label>
+                <input id="weight" type="number" required maxlength="3" name="text" placeholder="Nhập cân nặng">
+                <span class="form-message"></span>
             </div>
             <div class="form__input-form form__input--height">
-                Chiều cao(cm): <input id="height" type="text" name="text" placeholder="Nhập chiều cao">
+                <label for="height" class="form-label">Chiều cao (cm):</label>
+                <input id="height" type="number" required maxlength="3" name="text" placeholder="Nhập chiều cao">
+                <span class="form-message"></span>
             </div>
             <div class="form__input-form form__input--submit">
-                <button id="btn" type="button" onclick="BMI()" value="Submit">Submit</button>
-                <button type="button" onclick="resetForm()" value="Reset">Reset</button>
+                <button id="btn" type="submit" onsubmit="BMI()">Submit</button>
+                <button type="button" onclick="resetForm()">Reset</button>
             </div>
             <br>
             Kết quả BMI của bạn là: <span id="result"></span><br><br>
@@ -65,7 +85,10 @@
         document.addEventListener("DOMContentLoaded", () => {
             let localBMI = localStorage.getItem('localBMI'); // Tìm trong localStorage có key nào là BMI không
             localBMI = JSON.parse(localBMI); // giải mã localBMI ra
-            let html ='';
+            if (localBMI == null) {
+                localBMI = [];
+            }
+            let html = '';
             for (let i = 0; i < localBMI.length; i++) {
                 html += '<p> Tên: ' + localBMI[i].name + ' ' + '<br>' + 'BMI:' + localBMI[i].BMI + '<br>' + ' ' + 'Kết quả:' + localBMI[i].status + '</p>'
             }
@@ -74,6 +97,7 @@
             localStorage.setItem('localBMI', JSON.stringify(localBMI));
 
         });
+
     </script>
     <script>
         let localBMI = localStorage.getItem('localBMI'); // Tìm trong localStorage có key nào là BMI không
@@ -90,14 +114,14 @@
 
             // bt1: lưu array
             localStorage.setItem('localBMI', JSON.stringify(arrayBMI));
-            
         }
 
-
         function BMI() {
+
             let n = String(document.getElementById("name").value);
             let a = Number(document.getElementById("weight").value);
             let b = Number(document.getElementById("height").value);
+
             b = b / 100;
             let kq;
             let BMI = a / Math.pow(b, 2);
@@ -147,18 +171,48 @@
 
             // for(let key in data){
             document.getElementById("test").innerHTML = html;
-            // }        
+            // }       
+
+            // Chặn hành vi load form
+            // document.getElementById("#myform").addEventListener("click", function (event) {
+            //     event.preventDefault()
+            //     // checkInputs();
+            // });
+
         }
+        // function checkInputs() {
+        // let n = document.getElementById("name").value;
+        // let a = document.getElementById("weight").value;
+        // let b = document.getElementById("height").value;
+
+        // if (n == "") {
+        //     alert("Vui lòng nhập tên");
+        //     return false;
+        // }
+        // if (a == "") {
+        //     alert("Vui lòng nhập cân nặng");
+        //     return false;
+        // }
+        // if (b == "") {
+        //     alert("Vui lòng nhập chiều cao");
+        //     return false;
+        // }
+        // alert("ok")
+
+        // return true;
+        //  }
+
+
 
         // Code để ngoài để dùng để xử lý tất cả phần tử 
         // khai báo biến btnClear truyền vào phần tử selector id nút btn có phương thức lưu trữ nó trong biến btnClear
-        let btnClear = document.querySelector('#btn');
+        // let btnClear = document.querySelector('.btn-clear');
         // khai báo inputs truyền vào selectorall lấy tất cả thẻ html có input
-        let inputs = document.querySelectorAll('input');
+        // let inputs = document.querySelectorAll('input');
         // Xử lý sự kiện nghe click khi submit form, value sẽ thành 1 chuỗi trống cho mỗi phần tử input
-        btnClear.addEventListener('click', () => {
-            inputs.forEach(input => input.value = '');
-        });
+        // btnClear.addEventListener('click', () => {
+        //     inputs.forEach(input => input.value = '');
+        // });
         // getElementsByTagName: Tìm đến tất cả phần tử có id là myform
         function resetForm() {
             document.getElementById('myform').reset();
@@ -173,6 +227,17 @@
         //     document.getElementById("height").value = b;
         // }
     </script>
+    <!-- <script>
+        function isNumberKey(number) {
+            var charCode = (number.which) ? number.which : event.keyCode
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+
+            return true;
+        }
+
+    </script> -->
+
 </body>
 
 </html>
