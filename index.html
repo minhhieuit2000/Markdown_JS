@@ -56,32 +56,32 @@
             <h1>Tính chỉ số BMI của bạn</h1>
             <div class="form__input-form form__input--name">
                 <label for="" class="form-label">Họ Tên:</label>
-                <input id="name" type="text" required maxlength="65" name="text" placeholder="Nhập tên của bạn">
+                <input id="name" type="text" required name="text" placeholder="Nhập tên của bạn">
                 <span class="form-message"></span>
             </div>
             <div class="form__input-form form__input--weight">
                 <label for="weight" class="form-label"> Cân nặng (kg):</label>
-                <input id="weight" type="number" required maxlength="3" name="text" placeholder="Nhập cân nặng">
+                <input id="weight" type="number" required name="text" placeholder="Nhập cân nặng">
                 <span class="form-message"></span>
             </div>
             <div class="form__input-form form__input--height">
                 <label for="height" class="form-label">Chiều cao (cm):</label>
-                <input id="height" type="number" required maxlength="3" name="text" placeholder="Nhập chiều cao">
+                <input id="height" type="number" required name="text" placeholder="Nhập chiều cao">
                 <span class="form-message"></span>
             </div>
             <div class="form__input-form form__input--submit">
-                <button id="btn" type="submit" onsubmit="BMI()">Submit</button>
+                <button id="btn" class="btn-clear" type="submit" onsubmit="BMI()">Submit</button>
                 <button type="button" onclick="resetForm()">Reset</button>
             </div>
             <br>
-            Kết quả BMI của bạn là: <span id="result"></span><br><br>
             Thông tin: <br>
             <span id="test"></span>
         </div>
     </form>
+    </table>
     <!-- <script src="./main.js"></script> -->
     <script>
-        console.log('1', document.getElementById("result"))
+        console.log('1', document.getElementById("test"))
         document.addEventListener("DOMContentLoaded", () => {
             let localBMI = localStorage.getItem('localBMI'); // Tìm trong localStorage có key nào là BMI không
             localBMI = JSON.parse(localBMI); // giải mã localBMI ra
@@ -90,38 +90,45 @@
             }
             let html = '';
             for (let i = 0; i < localBMI.length; i++) {
-                html += '<p> Tên: ' + localBMI[i].name + ' ' + '<br>' + 'BMI:' + localBMI[i].BMI + '<br>' + ' ' + 'Kết quả:' + localBMI[i].status + '</p>'
+               html += '<p> Tên: ' + arrayBMI[i].name + ' ' + '<br>' + 'BMI:' + arrayBMI[i].BMI + '<br>' + ' ' + 'Kết quả:' + arrayBMI[i].status + '<button onclick="edit('+ i +')">Edit</button>' + ' ' + '<button type="button" onclick="remove('+ i +')">Delete</button>' + '</p>'
             }
             document.getElementById("test").innerHTML = html;
             // bt1: lưu array
             localStorage.setItem('localBMI', JSON.stringify(localBMI));
 
         });
+        // Tắt sự kiện load form
+        document.getElementById('myform').addEventListener("submit", function (e) {
+            e.preventDefault();
 
+            // Khi submit xoá dữ liệu trong form
+            let inputs = document.querySelectorAll('#name, #weight, #height');
+            inputs.forEach(input => {
+                input.value = '';
+            });
+        });
     </script>
     <script>
         let localBMI = localStorage.getItem('localBMI'); // Tìm trong localStorage có key nào là BMI không
         localBMI = JSON.parse(localBMI); // giải mã localBMI ra
         console.log(localBMI);
-
         let arrayBMI = []
         if (localBMI) {
             arrayBMI = localBMI;
             let html = ''
             for (let i = 0; i < arrayBMI.length; i++) {
-                html += '<p> Tên: ' + arrayBMI[i].name + ' ' + '<br>' + 'BMI:' + arrayBMI[i].BMI + '<br>' + ' ' + 'Kết quả:' + arrayBMI[i].status + '</p>'
+                html += '<p> Tên: ' + arrayBMI[i].name + ' ' + '<br>' + 'BMI:' + arrayBMI[i].BMI + '<br>' + ' ' + 'Kết quả:' + arrayBMI[i].status + '<button type="button" onclick="edit('+ i +')">Edit</button>' + ' ' + '<button type="button" onclick="remove('+ i +')">Delete</button>' + '</p>'
             };
 
             // bt1: lưu array
             localStorage.setItem('localBMI', JSON.stringify(arrayBMI));
+
         }
-
         function BMI() {
-
+            // Khai báo biến
             let n = String(document.getElementById("name").value);
             let a = Number(document.getElementById("weight").value);
             let b = Number(document.getElementById("height").value);
-
             b = b / 100;
             let kq;
             let BMI = a / Math.pow(b, 2);
@@ -144,100 +151,93 @@
                 console.log('Béo phì độ II ' + Math.round(BMI * 100) / 100);
                 kq = 'Béo phì độ II ';
             }
-            document.getElementById("result").innerHTML = Math.round(BMI * 100) / 100;
             let data = {
                 name: n,
+                weight: a,
+                height: b,
                 BMI: Math.round(BMI * 100) / 100,
                 status: kq
             };
             console.log(data);
             // console.log(data.name)
-            arrayBMI.push(data);
-            // console.log(arrayBMI);
-            let html = ''
-            for (let i = 0; i < arrayBMI.length; i++) {
-                html += '<p> Tên: ' + arrayBMI[i].name + ' ' + '<br>' + 'BMI:' + arrayBMI[i].BMI + '<br>' + ' ' + 'Kết quả:' + arrayBMI[i].status + '</p>'
+            if (selecterIndex === -1){
+                arrayBMI.push(data);
+            }else{
+                // splice: cập nhập, bắt đầu từ vị trí xoá, xoá 1 phần tử và update vào data
+                arrayBMI.splice(selecterIndex,1, data);
             }
+            // console.log("List BMI: ", arrayBMI);
 
-            // bt1: lưu array
-            localStorage.setItem('localBMI', JSON.stringify(arrayBMI)); // stringify mã hoá dữ liệu
-
-
-            // bt2: lưu data
-            // localStorage.setItem("name", n);
-            // localStorage.setItem("weight", a);
-            // localStorage.setItem("height",  b * 100);
-
-
-            // for(let key in data){
-            document.getElementById("test").innerHTML = html;
-            // }       
-
-            // Chặn hành vi load form
-            // document.getElementById("#myform").addEventListener("click", function (event) {
-            //     event.preventDefault()
-            //     // checkInputs();
+            // arrayBMI.map(function (index) { // value: 1, 2, 3 ; index 0 1 2 3
+            //     return index;
             // });
 
+            let html = ''
+            for (let i = 0; i < arrayBMI.length; i++) {
+                html += '<p> Tên: ' + arrayBMI[i].name + ' ' + '<br>' + 'BMI:' + arrayBMI[i].BMI + '<br>' + ' ' + 'Kết quả:' + arrayBMI[i].status + '<button type="button" onclick="edit('+ i +')">Edit</button>' + ' ' + '<button type="button" onclick="remove('+ i +')">Delete</button>' + '</p>'
+                // gọi đến hàm xoá, xoá ngay vị trí i
+            }
+            // bt1: lưu array
+            localStorage.setItem('localBMI', JSON.stringify(arrayBMI)); // stringify mã hoá dữ liệu
+            document.getElementById("test").innerHTML = html;
+
         }
-        // function checkInputs() {
-        // let n = document.getElementById("name").value;
-        // let a = document.getElementById("weight").value;
-        // let b = document.getElementById("height").value;
+      
+        function render(){
+            let html = '';
+            for (let i = 0; i < arrayBMI.length; i++) {
+                html += '<p> Tên: ' + arrayBMI[i].name + ' ' + '<br>' + 'BMI:' + arrayBMI[i].BMI + '<br>' + ' ' + 'Kết quả:' + arrayBMI[i].status + '<button type="button" onclick="edit('+ i +')">Edit</button>' + ' ' + '<button type="button" onclick="remove('+ i +')">Delete</button>' + '</p>'
+                // gọi đến hàm xoá, xoá ngay vị trí i
+            }
+            // bt1: lưu array
+            localStorage.setItem('localBMI', JSON.stringify(arrayBMI)); // stringify mã hoá dữ liệu
+            document.getElementById("test").innerHTML = html;
+        }
 
-        // if (n == "") {
-        //     alert("Vui lòng nhập tên");
-        //     return false;
+        // Khai báo -1 sẽ xoá 1 giá trị khi edit
+        let selecterIndex = -1;
+        function edit(i) {
+            selecterIndex = i;
+            document.getElementById("name").value = arrayBMI[i].name;
+            document.getElementById("weight").value = arrayBMI[i].weight;
+            document.getElementById("height").value = arrayBMI[i].height * 100;
+            // Khi nhấn vào edit chữ submit sẽ chuyển thành Update
+            document.getElementById("btn").innerHTML = "Update";
+            console.log("EditBMI:", i);
+            render()
+        }
+        
+        function remove(i) {
+            let localBMI = localStorage.getItem('localBMI');
+            // Xoá phần tử 1 phần tử: i vị trí, 1 là 1 phần tử
+            if(confirm("Bạn có chắc chắn muốn xoá tên này?")){
+                arrayBMI.splice(i, 1);  
+            }
+            // Khi xoá xong đẩy lại vào local
+            localStorage.setItem('localBMI', JSON.stringify(arrayBMI));
+            render()
+            console.log("RemoveBMI:",i)
+        }
+       
+        // function currentItemBMI(params) {
+        //     console.log(params);
+        //     return params
         // }
-        // if (a == "") {
-        //     alert("Vui lòng nhập cân nặng");
-        //     return false;
+
+
+        // function renderNumber(number) {
+        //     return number
         // }
-        // if (b == "") {
-        //     alert("Vui lòng nhập chiều cao");
-        //     return false;
-        // }
-        // alert("ok")
 
-        // return true;
-        //  }
+        // renderNumber()
 
 
-
-        // Code để ngoài để dùng để xử lý tất cả phần tử 
-        // khai báo biến btnClear truyền vào phần tử selector id nút btn có phương thức lưu trữ nó trong biến btnClear
-        // let btnClear = document.querySelector('.btn-clear');
-        // khai báo inputs truyền vào selectorall lấy tất cả thẻ html có input
-        // let inputs = document.querySelectorAll('input');
-        // Xử lý sự kiện nghe click khi submit form, value sẽ thành 1 chuỗi trống cho mỗi phần tử input
-        // btnClear.addEventListener('click', () => {
-        //     inputs.forEach(input => input.value = '');
-        // });
         // getElementsByTagName: Tìm đến tất cả phần tử có id là myform
         function resetForm() {
             document.getElementById('myform').reset();
         }
-        // function render(){
-        //     // Xuất local ra màn hình
-        //     let n = localStorage.getItem("name");
-        //     document.getElementById("name").value = n;
-        //     let a = localStorage.getItem("weight");
-        //     document.getElementById("weight").value = a;
-        //     let b = localStorage.getItem("height");
-        //     document.getElementById("height").value = b;
-        // }
+
     </script>
-    <!-- <script>
-        function isNumberKey(number) {
-            var charCode = (number.which) ? number.which : event.keyCode
-            if (charCode > 31 && (charCode < 48 || charCode > 57))
-                return false;
-
-            return true;
-        }
-
-    </script> -->
-
 </body>
 
 </html>
