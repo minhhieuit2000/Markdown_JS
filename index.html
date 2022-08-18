@@ -71,6 +71,7 @@
             </div>
             <div class="form__input-form form__input--submit">
                 <button id="btn" class="btn-clear" type="submit" onsubmit="BMI()">Submit</button>
+                <button id="update" style="display:none" type="submit" onsubmit="BMI()">Update</button>
                 <button type="button" onclick="resetForm()">Reset</button>
             </div>
             <br>
@@ -180,7 +181,8 @@
             // bt1: lưu array
             localStorage.setItem('localBMI', JSON.stringify(arrayBMI)); // stringify mã hoá dữ liệu
             document.getElementById("test").innerHTML = html;
-
+            document.getElementById("update").style.display = "none";
+            document.getElementById("btn").style.display = "inline-block";
         }
       
         function render(){
@@ -202,7 +204,8 @@
             document.getElementById("weight").value = arrayBMI[i].weight;
             document.getElementById("height").value = arrayBMI[i].height * 100;
             // Khi nhấn vào edit chữ submit sẽ chuyển thành Update
-            document.getElementById("btn").innerHTML = "Update";
+            document.getElementById("update").style.display = "inline-block";
+            document.getElementById("btn").style.display = "none";
             console.log("EditBMI:", i);
             render()
         }
