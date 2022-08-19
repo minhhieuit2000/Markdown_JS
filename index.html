@@ -90,7 +90,7 @@
             }
             let html = '';
             for (let i = 0; i < localBMI.length; i++) {
-               html += '<p> Tên: ' + arrayBMI[i].name + ' ' + '<br>' + 'BMI:' + arrayBMI[i].BMI + '<br>' + ' ' + 'Kết quả:' + arrayBMI[i].status + '<button onclick="edit('+ i +')">Edit</button>' + ' ' + '<button type="button" onclick="remove('+ i +')">Delete</button>' + '</p>'
+                html += '<p> Tên: ' + arrayBMI[i].name + ' ' + '<br>' + 'BMI:' + arrayBMI[i].BMI + '<br>' + ' ' + 'Kết quả:' + arrayBMI[i].status + '<button onclick="edit(' + i + ')">Edit</button>' + ' ' + '<button type="button" onclick="remove(' + i + ')">Delete</button>' + '</p>'
             }
             document.getElementById("test").innerHTML = html;
             // bt1: lưu array
@@ -117,7 +117,7 @@
             arrayBMI = localBMI;
             let html = ''
             for (let i = 0; i < arrayBMI.length; i++) {
-                html += '<p> Tên: ' + arrayBMI[i].name + ' ' + '<br>' + 'BMI:' + arrayBMI[i].BMI + '<br>' + ' ' + 'Kết quả:' + arrayBMI[i].status + '<button type="button" onclick="edit('+ i +')">Edit</button>' + ' ' + '<button type="button" onclick="remove('+ i +')">Delete</button>' + '</p>'
+                html += '<p> Tên: ' + arrayBMI[i].name + ' ' + '<br>' + 'BMI:' + arrayBMI[i].BMI + '<br>' + ' ' + 'Kết quả:' + arrayBMI[i].status + '<button type="button" onclick="edit(' + i + ')">Edit</button>' + ' ' + '<button type="button" onclick="remove(' + i + ')">Delete</button>' + '</p>'
             };
 
             // bt1: lưu array
@@ -160,12 +160,11 @@
             };
             console.log(data);
             // console.log(data.name)
-            if (selecterIndex >=0){
-                arrayBMI.splice(selecterIndex,1, data);
-            }else{
+            if (selecterIndex === -1) {
                 arrayBMI.push(data);
-
-                // splice: cập nhập, bắt đầu từ vị trí xoá, xoá 1 phần tử và update vào data
+            } else {
+                // nếu đối tượng dương tồn tại cập nhập, bắt đầu từ vị trí xoá, xoá 1 phần tử và update vào data
+                arrayBMI.splice(selecterIndex, 1, data);
             }
             // console.log("List BMI: ", arrayBMI);
 
@@ -175,22 +174,21 @@
 
             let html = ''
             for (let i = 0; i < arrayBMI.length; i++) {
-                html += '<p> Tên: ' + arrayBMI[i].name + ' ' + '<br>' + 'BMI:' + arrayBMI[i].BMI + '<br>' + ' ' + 'Kết quả:' + arrayBMI[i].status + '<button type="button" onclick="edit('+ i +')">Edit</button>' + ' ' + '<button type="button" onclick="remove('+ i +')">Delete</button>' + '</p>'
+                html += '<p> Tên: ' + arrayBMI[i].name + ' ' + '<br>' + 'BMI:' + arrayBMI[i].BMI + '<br>' + ' ' + 'Kết quả:' + arrayBMI[i].status + '<button type="button" onclick="edit(' + i + ')">Edit</button>' + ' ' + '<button type="button" onclick="remove(' + i + ')">Delete</button>' + '</p>'
                 // gọi đến hàm xoá, xoá ngay vị trí i
             }
             // bt1: lưu array
             localStorage.setItem('localBMI', JSON.stringify(arrayBMI)); // stringify mã hoá dữ liệu
             document.getElementById("test").innerHTML = html;
             document.getElementById("btn").innerHTML = "Submit";
+            // Khi xoá các trường sẽ đặt lại như cũ
             selecterIndex = -1;
-
-
         }
-      
-        function render(){
+
+        function render() {
             let html = '';
             for (let i = 0; i < arrayBMI.length; i++) {
-                html += '<p> Tên: ' + arrayBMI[i].name + ' ' + '<br>' + 'BMI:' + arrayBMI[i].BMI + '<br>' + ' ' + 'Kết quả:' + arrayBMI[i].status + '<button type="button" onclick="edit('+ i +')">Edit</button>' + ' ' + '<button type="button" onclick="remove('+ i +')">Delete</button>' + '</p>'
+                html += '<p> Tên: ' + arrayBMI[i].name + ' ' + '<br>' + 'BMI:' + arrayBMI[i].BMI + '<br>' + ' ' + 'Kết quả:' + arrayBMI[i].status + '<button type="button" onclick="edit(' + i + ')">Edit</button>' + ' ' + '<button type="button" onclick="remove(' + i + ')">Delete</button>' + '</p>'
                 // gọi đến hàm xoá, xoá ngay vị trí i
             }
             // bt1: lưu array
@@ -211,31 +209,18 @@
             console.log("EditBMI:", i);
             render()
         }
-    
+
         function remove(i) {
             let localBMI = localStorage.getItem('localBMI');
             // Xoá phần tử 1 phần tử: i vị trí, 1 là 1 phần tử
-            if(confirm("Bạn có chắc chắn muốn xoá tên này?")){
-                arrayBMI.splice(i, 1);  
+            if (confirm("Bạn có chắc chắn muốn xoá tên này?")) {
+                arrayBMI.splice(i, 1);
             }
             // Khi xoá xong đẩy lại vào local
             localStorage.setItem('localBMI', JSON.stringify(arrayBMI));
             render()
-            console.log("RemoveBMI:",i)
+            console.log("RemoveBMI:", i)
         }
-       
-        // function currentItemBMI(params) {
-        //     console.log(params);
-        //     return params
-        // }
-
-
-        // function renderNumber(number) {
-        //     return number
-        // }
-
-        // renderNumber()
-
 
         // getElementsByTagName: Tìm đến tất cả phần tử có id là myform
         function resetForm() {
